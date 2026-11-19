@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10202b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Locatiejacht">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Locatiejacht</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map"></div>
+
+<div id="topbar">
+  <strong id="title">Locatiejacht</strong>
+  <span id="timer" class="hidden">00:00</span>
+  <button id="btn-help2" class="help-top" type="button" aria-label="Uitleg">?</button>
+</div>
+<div id="gpsbadge">GPS zoeken…</div>
+
+<!-- INSTELLEN -->
+<section id="setup" class="sheet">
+  <div class="grip"></div>
+  <div class="sheet-body">
+    <h2>Teken je speelgebied</h2>
+    <button id="btn-help" class="ghost help-btn" type="button">Uitleg en voorbeelden</button>
+    <p class="hint">Tik op de kaart om hoekpunten te zetten. Sleep een punt om het te verplaatsen. Minimaal 100 × 100 m.</p>
+    <div class="row">
+      <button id="btn-undo" class="ghost">Punt terug</button>
+      <button id="btn-clear" class="ghost">Wissen</button>
+      <button id="btn-locate" class="ghost">Mijn locatie</button>
+    </div>
+    <p id="area-info" class="info">Nog geen gebied.</p>
+    <p id="prefetch" class="info"></p>
+
+    <label class="field">Aantal locaties: <b id="n-val">5</b>
+      <input type="range" id="n" min="3" max="20" value="5">
+    </label>
+
+    <details>
+      <summary>Opdrachten</summary>
+      <label class="field">Aankomststraal (meter)
+        <input type="number" id="radius" min="2" max="50" value="5">
+      </label>
+      <label class="field">Moeilijkheid
+        <select id="level">
+          <option value="1">Makkelijk (aanrader)</option>
+          <option value="2">Normaal</option>
+          <option value="3">Moeilijk</option>
+        </select>
+      </label>
+      <div class="field">Opdrachten komen uit (oneindig):
+        <label class="check"><input type="checkbox" id="srcPuz"> Denkpuzzels (sudoku, nonogram, logica-raadsel, lettersom, wolkenkrabbers, slot, schuifpuzzel, Hanoi …)</label>
+        <label class="check"><input type="checkbox" id="srcApi"> Quizvragen via internet (automatisch vertaald naar Nederlands)</label>
+        <label class="check"><input type="checkbox" id="srcMc"> Nederlandse meerkeuzevragen (oneindig, werkt ook offline)</label>
+        <label class="check"><input type="checkbox" id="srcCode"> Kraak-de-code puzzels (werkt ook offline)</label>
+      </div>
+    </details>
+
+    <button id="btn-start" class="primary" disabled>Maak locaties en start</button>
+    <p id="setup-msg" class="info"></p>
+  </div>
+</section>
+
+<!-- SPEL -->
+<section id="game" class="sheet hidden">
+  <div class="sheet-body compact">
+    <div class="g-top">
+      <div>
+        <div id="g-title" class="g-title">Locatie 1 van 5</div>
+        <div id="g-sub" class="hint">Loop naar de oranje vlag.</div>
+      </div>
+      <div class="g-dist"><span id="g-arrow">➤</span><b id="g-dist">—</b></div>
+    </div>
+    <div class="row">
+      <button id="g-center" class="ghost">Toon beide</button>
+      <button id="g-stop" class="ghost danger">Stop spel</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button id="g-skip" class="ghost">Locatie niet bereikbaar</button>
+    </div>
+  </div>
+</section>
+
+<!-- POPUP -->
+<div id="modal" class="modal hidden"><div class="modal-card" id="modal-card"></div></div>
+
+<!-- UITSLAG -->
+<div id="result" class="modal hidden"><div class="modal-card big" id="result-card"></div></div>
+
+<!-- UITLEG -->
+<div id="help" class="modal hidden"><div class="modal-card big" id="help-card"></div></div>
+
+<div id="loading" class="modal hidden"><div class="modal-card"><p id="loading-text">Bezig…</p></div></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="puzzles.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
